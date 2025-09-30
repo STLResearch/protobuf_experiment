@@ -9,9 +9,14 @@ environment:
   sdk: ^3.9.2
 
 dependencies:
+  bloc: ^9.0.1
   cupertino_icons: ^1.0.8
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
+  protobuf: ^4.2.0
+  protoc_plugin: ^22.5.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
