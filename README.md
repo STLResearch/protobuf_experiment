@@ -1,3 +1,3 @@
 # protobuf_experiment
 
-Sample Flutter app that transmits data over Socket IO using protobuf
+Sample Flutter app that showcases how to work with protobuf
