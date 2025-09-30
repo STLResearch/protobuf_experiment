@@ -10,10 +10,18 @@ final class ReceiveRemoteIDSignals extends DroneEvent {
 }
 
 final class ReceivedRemoteIDSignals extends DroneEvent {
-  const ReceivedRemoteIDSignals({required this.drone});
+  const ReceivedRemoteIDSignals({
+    required this.drone,
+    required this.droneBuffer,
+    required this.droneJson,
+  });
 
   final Drone drone;
 
+  final Uint8List droneBuffer;
+
+  final String droneJson;
+
   @override
-  List<Object> get props => [drone];
+  List<Object> get props => [drone, droneBuffer, droneJson];
 }

@@ -58,6 +58,26 @@ class _HomeViewState extends State<HomeView> {
           children: [
             Text('Drones detected: 1', style: TextStyle(color: Colors.white)),
             const SizedBox(height: 16.0),
+            BlocBuilder<DroneBloc, DroneState>(
+              builder: (_, droneState) => Text(
+                'Buffer: ${switch (droneState) {
+                  Received(:final drone, :final droneBuffer, :final droneJson) => droneBuffer,
+                  _ => '...',
+                }}',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            BlocBuilder<DroneBloc, DroneState>(
+              builder: (_, droneState) => Text(
+                'JSON: ${switch (droneState) {
+                  Received(:final drone, :final droneBuffer, :final droneJson) => droneJson,
+                  _ => '...',
+                }}',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

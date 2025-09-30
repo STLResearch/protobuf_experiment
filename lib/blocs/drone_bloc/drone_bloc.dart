@@ -1,5 +1,6 @@
 import 'dart:async' show StreamSubscription;
 import 'dart:math' show Random;
+import 'dart:typed_data' show Uint8List;
 
 import 'package:bloc/bloc.dart' show Bloc, Emitter;
 import 'package:equatable/equatable.dart' show Equatable;
@@ -36,31 +37,47 @@ class DroneBloc extends Bloc<DroneEvent, DroneState> {
         ).listen((_) {
           final random = Random();
 
-          final randomLocation = Drone_Location(
+          final randomLocation = Location(
             latitude: random.nextDouble() * 180 - 90,
             longitude: random.nextDouble() * 360 - 180,
           );
 
-          final randomConnection = Drone_Connection(
+          final randomConnection = Connection(
             macAddress: '00:1A:2B:3C:4D:5E',
             rssi: random.nextInt(100),
           );
 
-          final randomRemoteID = Drone_RemoteID(
+          final randomRemoteID = RemoteID(
             connection: randomConnection,
             location: randomLocation,
           );
 
           final randomDrone = Drone(remoteID: randomRemoteID);
 
-          add(ReceivedRemoteIDSignals(drone: randomDrone));
+          final droneBuffer = randomDrone.writeToBuffer();
+
+          final droneJson = randomDrone.writeToJson();
+
+          add(
+            ReceivedRemoteIDSignals(
+              drone: randomDrone,
+              droneBuffer: droneBuffer,
+              droneJson: droneJson,
+            ),
+          );
         });
   }
 
   void _receivedRemoteIDSignals(
     ReceivedRemoteIDSignals event,
     Emitter<DroneState> emit,
-  ) => emit(Received(drone: event.drone));
+  ) => emit(
+    Received(
+      drone: event.drone,
+      droneBuffer: event.droneBuffer,
+      droneJson: event.droneJson,
+    ),
+  );
 
   Future<void> _stopReceivingDroneRemoteIDSignals() async {
     await _remoteIDStreamSubscription?.cancel();
